@@ -21,7 +21,6 @@ class StatsAlerter():
   def checkAndAlert(self,number_list):
     max_num = max(number_list)
     if max_num > self.threshold:
-      print("More than threshold")
       self.emailSent = 1
       self.ledGlows = 1
       EmailAlert.emailSent = 1
@@ -50,8 +49,6 @@ class StatsTest(unittest.TestCase):
     maxThreshold = 10.5
     statsAlerter = StatsAlerter(maxThreshold, [emailAlert, ledAlert])
     statsAlerter.checkAndAlert([22.6, 12.5, 3.7])
-    print(emailAlert.emailSent)
-    print(ledAlert.ledGlows)
     self.assertTrue(emailAlert.emailSent)
     self.assertTrue(ledAlert.ledGlows)
 
