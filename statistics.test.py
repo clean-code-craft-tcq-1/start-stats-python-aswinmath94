@@ -4,27 +4,27 @@ import math
 
 class EmailAlert():
   def __init__(self):
-    self.emailSent = 1
+    self.emailSent = 0
 
 
 class LEDAlert():
   def __init__(self):
-    self.ledGlows = 1
+    self.ledGlows = 0
 
 class StatsAlerter():
 
-  def __init__(self, threshold, alerts):
-    self.threshold = threshold
-    self.emailSent = alerts[0]
-    self.ledGlows = alerts[1]
+  def __init__(self, max_threshold, alerts):
+    self.mt = max_threshold
+    self.ea = alerts[0].emailSent
+    self.ledGlows = alerts[1].ledGlows
 
   def checkAndAlert(self,number_list):
     max_num = max(number_list)
-    if max_num > self.threshold:
-      self.emailSent = 1
-      self.ledGlows = 1
-      EmailAlert.emailSent = 1
-      LEDAlert.ledGlows = 1
+    if max_num > self.mt:
+      self.ea = 1
+      self.la = 1
+    return [self.ea,self.la]
+
 
 
 class StatsTest(unittest.TestCase):
@@ -48,7 +48,7 @@ class StatsTest(unittest.TestCase):
     ledAlert = LEDAlert()
     maxThreshold = 10.5
     statsAlerter = StatsAlerter(maxThreshold, [emailAlert, ledAlert])
-    statsAlerter.checkAndAlert([22.6, 12.5, 3.7])
+    [emailAlert.emailSent,ledAlert.ledGlows ]= statsAlerter.checkAndAlert([22.6,12.5,3.7])
     self.assertTrue(emailAlert.emailSent)
     self.assertTrue(ledAlert.ledGlows)
 
@@ -56,3 +56,5 @@ class StatsTest(unittest.TestCase):
 
 if __name__ == "__main__":
   unittest.main()
+
+
